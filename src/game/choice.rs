@@ -15,7 +15,7 @@ pub enum Choice {
 }
 
 impl Choice {
-    // return 1 if stronger
+    // return 1 if player 1 wins | -1 if player 2 wins | 0 if tie
     pub fn get_strength(&self, other: &Choice) -> i32 {
         match (self, other) {
             (Choice::Rock, Choice::Scissors) | (Choice::Rock, Choice::Lizard) => 1,
@@ -70,7 +70,6 @@ impl Choice {
 
 // get random choice
 // let choice: Choice = rand::random();
-
 impl Distribution<Choice> for Standard {
     fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> Choice {
         match rng.gen_range(0..=4) {
@@ -83,6 +82,7 @@ impl Distribution<Choice> for Standard {
     }
 }
 
+// encode disdplay emoji
 impl fmt::Display for Choice {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {

@@ -1,3 +1,4 @@
+// local models
 mod choice;
 mod matchup;
 mod player;
@@ -5,6 +6,7 @@ mod player;
 use matchup::*;
 use player::*;
 
+// external modules
 use colored::*;
 use rand::seq::SliceRandom;
 use rand::thread_rng;
@@ -20,6 +22,7 @@ impl Game {
     pub fn new(rounds: u8, player_count: u8) -> Self {
         let players = Game::create_players(player_count);
         let matchups = Game::create_matchups(players.keys().cloned().collect());
+
         Self {
             rounds,
             players,
@@ -28,17 +31,18 @@ impl Game {
     }
 
     pub fn start(&mut self) {
-        // Simulate rounds and update victory counts
         for round in 1..=self.rounds {
             println!(
-                "\n〰️〰️〰️〰️〰️〰️ ROUND {} 〰️〰️〰️〰️〰️〰️",
+                "\n 〰️〰️〰️〰️〰️〰️ ROUND {} 〰️〰️〰️〰️〰️〰️",
                 round.to_string().bold()
             );
 
             for matchup in &self.matchups {
+                // get human/computer info
                 let player_1_human = self.players.get(&matchup.player1).unwrap().is_human;
                 let player_2_human = self.players.get(&matchup.player2).unwrap().is_human;
 
+                //simulate matchup
                 let winner_name = matchup.play(player_1_human, player_2_human);
 
                 // increase score
@@ -50,8 +54,9 @@ impl Game {
         self.print_scores();
         self.find_winner();
     }
+
     fn print_scores(&self) {
-        println!("\n〰️〰️〰️〰️〰️〰️ {} 〰️〰️〰️〰️〰️〰️", "RESULTS".bold());
+        println!("\n 〰️〰️〰️〰️〰️〰️ {} 〰️〰️〰️〰️〰️〰️", "RESULTS".bold());
         // Print scores for all players
         for player in self.players.values() {
             println!(
@@ -61,6 +66,7 @@ impl Game {
             );
         }
     }
+    
     fn find_winner(&self) {
         let mut highest_score = 0;
         let mut winners: Vec<&str> = Vec::new();
@@ -81,16 +87,11 @@ impl Game {
                 highest_score.to_string().bold().yellow()
             );
         } else {
-            let joined_winnners = winners
-                .iter()
-                .map(|x| x.to_string())
-                .collect::<Vec<String>>()
-                .join(", ");
-
+            let joined_winners = winners.join(", ");
             println!(
                 "\n🏆 🏆 🏆 It's a tie! Winners with score {}: {:?} 🏆 🏆 🏆",
                 highest_score.to_string().bold().yellow(),
-                joined_winnners.bold()
+                joined_winners.bold()
             );
         }
     }

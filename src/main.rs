@@ -1,5 +1,4 @@
 mod game;
-
 use game::Game;
 use std::io;
 

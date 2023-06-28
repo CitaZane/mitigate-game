@@ -7,7 +7,6 @@ use std::time::Duration;
 pub struct Matchup {
     pub player1: String,
     pub player2: String,
-    // result: String,
 }
 
 impl Matchup {
@@ -15,7 +14,6 @@ impl Matchup {
         Matchup {
             player1,
             player2,
-            // result: String::new(),
         }
     }
 
@@ -26,8 +24,10 @@ impl Matchup {
         let player_1_move = Matchup::make_a_choice(player_1_human);
         let player_2_move = Matchup::make_a_choice(player_2_human);
 
+        // display choices
         println!("{} - {}", self.player1.dimmed(), player_1_move);
         println!("{} - {}", self.player2.dimmed(), player_2_move);
+
         // calculate outcome
         let outcome = player_1_move.get_strength(&player_2_move);
 
