@@ -1,8 +1,11 @@
 mod matchup;
 mod player;
+mod choice;
 
 use matchup::*;
 use player::*;
+use choice::*;
+
 use rand::seq::SliceRandom;
 use rand::thread_rng;
 use std::collections::HashMap;
@@ -26,6 +29,19 @@ impl Game {
     }
 
     pub fn start(&mut self) {
+        // Simulate rounds and update victory counts
+        for round in 1..=self.rounds{
+            println!("ROUND {round}");
+
+            for matchup in &self.matchups{
+                let winner = matchup.play();
+                println!("Winner : {winner}")
+            }
+
+        }
+
+
+
         // Implement the game logic here
         // Simulate rounds, track matchups, determine winners, etc.
         // Use self.players and self.rounds to access the player count and round count
