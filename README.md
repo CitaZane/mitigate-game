@@ -12,7 +12,7 @@ This is a console-based implementation of the popular game Rock-Paper-Scissors-L
 
 ## Requirements
 
-- Rust (1.0 or later)
+- Rust (1.64.0 or later)
 
 ## Installation
 
