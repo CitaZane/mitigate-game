@@ -1,4 +1,4 @@
-# Rock-Paper-Scissors-Lizard-Spock Console Game
+# 🪨 - 📰 - ✂️ - 🦎 - 🖖 Console Game
 
 This is a console-based implementation of the popular game Rock-Paper-Scissors-Lizard-Spock written in Rust. The game allows you to play against computer players and compete for the highest score.
 
