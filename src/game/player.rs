@@ -1,8 +1,8 @@
 #[derive(Debug)]
 pub struct Player {
     pub name: String,
-    victory_count: u32,
-    is_human: bool,
+    pub victory_count: u32,
+    pub is_human: bool,
 }
 
 impl Player {

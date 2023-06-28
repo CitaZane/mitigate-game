@@ -1,10 +1,10 @@
+mod choice;
 mod matchup;
 mod player;
-mod choice;
 
+use choice::*;
 use matchup::*;
 use player::*;
-use choice::*;
 
 use rand::seq::SliceRandom;
 use rand::thread_rng;
@@ -19,8 +19,7 @@ pub struct Game {
 impl Game {
     pub fn new(rounds: u8, player_count: u8) -> Self {
         let players = Game::create_players(player_count);
-        let matchups = Game::create_matchups
-        (players.keys().cloned().collect());
+        let matchups = Game::create_matchups(players.keys().cloned().collect());
         Self {
             rounds,
             players,
@@ -30,22 +29,49 @@ impl Game {
 
     pub fn start(&mut self) {
         // Simulate rounds and update victory counts
-        for round in 1..=self.rounds{
-            println!("ROUND {round}");
+        for round in 1..=self.rounds {
+            println!("〰️〰️〰️〰️〰️〰️ ROUND {round} 〰️〰️〰️〰️〰️〰️");
 
-            for matchup in &self.matchups{
-                let winner = matchup.play();
-                println!("Winner : {winner}")
+            for matchup in &self.matchups {
+                let player_1_human = self.players.get(&matchup.player1).unwrap().is_human;
+                let player_2_human = self.players.get(&matchup.player2).unwrap().is_human;
+
+                let winner_name = matchup.play(player_1_human, player_2_human);
+
+                // increase score
+                if let Some(winner) = self.players.get_mut(&winner_name) {
+                    winner.victory_count += 1;
+                }
             }
-
         }
+        self.print_scores();
+        self.find_winner();
+    }
+    fn print_scores(&self) {
+        println!("〰️〰️〰️〰️〰️〰️ RESULTS 〰️〰️〰️〰️〰️〰️");
+        // Print scores for all players
+        for player in self.players.values() {
+            println!("Player: {}  Victory count: {}", player.name, player.victory_count);
+        }
+    }
+    fn find_winner(&self) {
+        let mut highest_score = 0;
+        let mut winners: Vec<&str> = Vec::new();
 
-
-
-        // Implement the game logic here
-        // Simulate rounds, track matchups, determine winners, etc.
-        // Use self.players and self.rounds to access the player count and round count
-        // Display the results at the end
+        for (name, player) in &self.players {
+            if player.victory_count > highest_score {
+                highest_score = player.victory_count;
+                winners.clear();
+                winners.push(name);
+            }else if player.victory_count == highest_score {
+                winners.push(name);
+            }
+        }
+        if winners.len() == 1 {
+            println!("🏆 🏆 🏆  Winner: {} with score {} 🏆 🏆 🏆 ", winners[0], highest_score);
+        } else {
+            println!("🏆 🏆 🏆 It's a tie! Winners with score {}: {:?} 🏆 🏆 🏆", highest_score, winners);
+        }
     }
 
     fn create_players(player_count: u8) -> HashMap<String, Player> {

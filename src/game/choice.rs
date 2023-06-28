@@ -2,6 +2,8 @@ use rand::{
     distributions::{Distribution, Standard},
     Rng,
 };
+use std::io;
+use std::fmt;
 
 #[derive(Debug, PartialEq, Clone)]
 pub enum Choice {
@@ -29,6 +31,41 @@ impl Choice {
             _ => 0,
         }
     }
+
+    pub fn action(&self, other: &Choice)->String{
+        match (self, other){
+            (Choice::Scissors, Choice::Paper) =>"cuts".to_string(),
+            (Choice::Paper, Choice::Rock) =>"covers".to_string(),
+            (Choice::Rock, Choice::Lizard) =>"crushes".to_string(),
+            (Choice::Lizard, Choice::Spock) =>"poisons".to_string(),
+            (Choice::Spock, Choice::Scissors) =>"smashes".to_string(),
+            (Choice::Scissors, Choice::Lizard) =>"decapitates".to_string(),
+            (Choice::Lizard, Choice::Paper) =>"eats".to_string(),
+            (Choice::Paper, Choice::Spock) =>"disproves".to_string(),
+            (Choice::Spock, Choice::Rock) =>"vaporizes".to_string(),
+            _ => "crushes".to_string(),
+        }
+    }
+
+    pub fn ask() -> Choice {
+        loop {
+            println!("Please enter your choice (rock, paper, scissors, lizard, spock):");
+            let mut input = String::new();
+
+            if let Ok(_) = io::stdin().read_line(&mut input) {
+                match input.trim().to_lowercase().as_str() {
+                    "rock" => return Choice::Rock,
+                    "paper" => return Choice::Paper,
+                    "scissors" => return Choice::Scissors,
+                    "lizard" => return Choice::Lizard,
+                    "spock" => return Choice::Spock,
+                    _ => println!("Invalid choice! Please try again."),
+                }
+            } else {
+                println!("Error reading input. Please try again.");
+            }
+        }
+    }
 }
 
 impl Distribution<Choice> for Standard {
@@ -42,5 +79,17 @@ impl Distribution<Choice> for Standard {
         }
     }
 }
-
+// get random choice
 // let choice: Choice = rand::random();
+
+impl fmt::Display for Choice {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            Choice::Rock => write!(f, "🪨"),
+            Choice::Paper => write!(f, "📰"),
+            Choice::Scissors => write!(f, "✂️"),
+            Choice::Lizard => write!(f, "🦎"),
+            Choice::Spock => write!(f, "🖖"),
+        }
+    }
+}
