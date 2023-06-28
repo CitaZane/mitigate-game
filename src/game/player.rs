@@ -1,6 +1,6 @@
 #[derive(Debug)]
 pub struct Player {
-    name: String,
+    pub name: String,
     victory_count: u32,
     is_human: bool,
 }

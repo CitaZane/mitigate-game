@@ -13,8 +13,8 @@ fn main() {
     let round_count = read_input("Enter the number of rounds (1-5):", 1, 5);
 
     // define new game
-    let game = Game::new(round_count, player_count);
-    println!("{:?}",game.players)
+    let mut game = Game::new(round_count, player_count);
+    game.start()
 }
 
 fn read_input(prompt: &str, min: u8, max: u8) -> u8 {
