@@ -2,8 +2,8 @@ use rand::{
     distributions::{Distribution, Standard},
     Rng,
 };
-use std::io;
 use std::fmt;
+use std::io;
 
 #[derive(Debug, PartialEq, Clone)]
 pub enum Choice {
@@ -32,17 +32,17 @@ impl Choice {
         }
     }
 
-    pub fn action(&self, other: &Choice)->String{
-        match (self, other){
-            (Choice::Scissors, Choice::Paper) =>"cuts".to_string(),
-            (Choice::Paper, Choice::Rock) =>"covers".to_string(),
-            (Choice::Rock, Choice::Lizard) =>"crushes".to_string(),
-            (Choice::Lizard, Choice::Spock) =>"poisons".to_string(),
-            (Choice::Spock, Choice::Scissors) =>"smashes".to_string(),
-            (Choice::Scissors, Choice::Lizard) =>"decapitates".to_string(),
-            (Choice::Lizard, Choice::Paper) =>"eats".to_string(),
-            (Choice::Paper, Choice::Spock) =>"disproves".to_string(),
-            (Choice::Spock, Choice::Rock) =>"vaporizes".to_string(),
+    pub fn action(&self, other: &Choice) -> String {
+        match (self, other) {
+            (Choice::Scissors, Choice::Paper) => "cuts".to_string(),
+            (Choice::Paper, Choice::Rock) => "covers".to_string(),
+            (Choice::Rock, Choice::Lizard) => "crushes".to_string(),
+            (Choice::Lizard, Choice::Spock) => "poisons".to_string(),
+            (Choice::Spock, Choice::Scissors) => "smashes".to_string(),
+            (Choice::Scissors, Choice::Lizard) => "decapitates".to_string(),
+            (Choice::Lizard, Choice::Paper) => "eats".to_string(),
+            (Choice::Paper, Choice::Spock) => "disproves".to_string(),
+            (Choice::Spock, Choice::Rock) => "vaporizes".to_string(),
             _ => "crushes".to_string(),
         }
     }
@@ -68,6 +68,9 @@ impl Choice {
     }
 }
 
+// get random choice
+// let choice: Choice = rand::random();
+
 impl Distribution<Choice> for Standard {
     fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> Choice {
         match rng.gen_range(0..=4) {
@@ -79,8 +82,6 @@ impl Distribution<Choice> for Standard {
         }
     }
 }
-// get random choice
-// let choice: Choice = rand::random();
 
 impl fmt::Display for Choice {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
